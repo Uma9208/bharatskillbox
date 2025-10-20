@@ -1,229 +1,373 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bharat SkillBox — State-wise Products</title>
+  <title>Bharat SkillBox Ecosystem</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Roboto',sans-serif;background:#fef6e4;color:#333;line-height:1.45}
-    header{background:linear-gradient(90deg,#ff9933,#ff6600);color:#fff;padding:18px;text-align:center;position:sticky;top:0;z-index:50}
-    .header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:56px;border-radius:10px;border:2px solid #fff}
-    .tagline{font-family:'Montserrat',sans-serif;font-style:italic;font-size:13px}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Roboto',sans-serif;background:#fef6e4;color:#333;line-height:1.4;}
 
-    /* state nav */
-    .state-nav{background:#fff8f0;border-top:4px solid #ff9933;padding:10px 12px;overflow:auto}
-    .state-nav a{display:inline-block;margin:6px 8px;padding:6px 10px;border-radius:8px;text-decoration:none;color:#ff6600;border:1px solid #ffd1b3;font-weight:600}
-    .state-nav a:hover{background:#ffecd9}
+    /* Splash */
+    #splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#ff9933,#ff6600);display:flex;justify-content:center;align-items:center;z-index:1000;}
+    .loader{width:80px;height:80px;border-radius:50%;border:10px solid rgba(255,255,255,0.25);border-top-color:#fff;animation:spin 1s linear infinite;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .splash-hidden{animation:fadeOut .6s ease forwards;}
+    @keyframes fadeOut{to{opacity:0;visibility:hidden;}}
 
-    main{max-width:1100px;margin:18px auto;padding:12px}
-    section.state-section{margin:18px 0;padding:16px;border-radius:12px;border:2px solid #ff9933;background:#fff8f0}
-    section.state-section h2{margin-bottom:8px;color:#b35400}
+    header{background:linear-gradient(90deg,#ff9933,#ff6600);color:white;text-align:center;padding:18px;}
+    .header-logo{width:64px;height:auto;display:block;margin:0 auto 10px;border-radius:12px;border:2px solid white;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+    .tagline{font-family:'Montserrat',sans-serif;font-style:italic;text-shadow:1px 1px 2px #000;font-size:14px;margin-bottom:6px;}
+    nav{margin-top:6px;}
+    nav a, .logout-btn{margin:0 8px;color:white;text-decoration:none;font-weight:700;cursor:pointer;display:inline-block;padding:6px 10px;border-radius:6px;}
+    .logout-btn{background:rgba(255,255,255,0.12);border:none;}
 
-    .product-list{display:flex;flex-wrap:wrap;gap:18px}
-    .product-card{width:220px;background:#fff;border-radius:12px;padding:12px;border:2px solid #ff9933;box-shadow:0 8px 20px rgba(0,0,0,0.08);text-align:center}
-    .product-card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
-    .img-placeholder{height:140px;display:flex;align-items:center;justify-content:center;background:#ffe8cf;border-radius:8px;color:#b35400;font-weight:700}
-    .price{font-weight:700;margin:8px 0}
-    .cat{font-size:13px;color:#7a3f00;margin-bottom:8px}
+    #hero{display:none;text-align:center;padding:36px 20px;background:url('assets/india-bg.jpg') center/cover no-repeat;color:white;text-shadow:2px 2px #000;}
 
-    footer{text-align:center;padding:16px;margin:30px 0;color:#fff;background:linear-gradient(90deg,#ff9933,#ff6600);border-radius:8px}
+    #auth{text-align:center;padding:30px;}
+    .auth-form input,.auth-form select{padding:10px;margin:6px;border-radius:8px;border:2px solid #ff9933;min-width:200px;}
+    .auth-form button{padding:10px 15px;margin:6px;background:linear-gradient(90deg,#ff9933,#ff6600);color:white;border:none;border-radius:5px;cursor:pointer;font-weight:600;}
+    .auth-msg{color:#b00020;margin-top:8px;min-height:18px;}
 
-    @media (max-width:800px){.product-card{width:45%}.brand h1{font-size:18px}}
-    @media (max-width:480px){.product-card{width:100%}}
+    .product-list{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
+    .product-card{background:white;border-radius:12px;border:2px solid #ff9933;box-shadow:0 8px 20px rgba(0,0,0,0.12);padding:12px;width:220px;text-align:center;transition:transform 0.25s;}
+    .product-card:hover{transform:translateY(-6px);}
+    .product-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;}
+    .img-placeholder{display:flex;align-items:center;justify-content:center;height:140px;background:#ffe8cf;border-radius:8px;color:#b35400;font-weight:700;}
+
+    section{padding:30px 16px;border-radius:12px;border:2px solid #ff9933;margin:20px auto;max-width:1000px;background:#fff8f0;}
+    .cart,#wallet,#admin{max-width:600px;margin:10px auto;}
+    footer{text-align:center;padding:20px;background:linear-gradient(90deg,#ff9933,#ff6600);color:white;margin-top:20px;}
+
+    /* Redeem modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:2000;display:none;}
+    .modal{background:white;border-radius:10px;padding:18px;max-width:420px;width:90%;box-shadow:0 12px 30px rgba(0,0,0,0.25);}
+    .modal h3{margin-bottom:10px;}
+    .modal select{width:100%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #ddd;}
+    .modal .modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+    .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;}
+    .btn-primary{background:linear-gradient(90deg,#ff9933,#ff6600);color:white;}
+    .btn-muted{background:#eee;}
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="brand">
-        <img src="assets/logo.jpg" alt="logo">
-        <div>
-          <h1 style="font-size:18px;margin-bottom:4px">Bharat SkillBox — State-wise Crafts</h1>
-          <div class="tagline">Buy Local • Earn SkillSeeds • Empower India</div>
-        </div>
-      </div>
-      <nav aria-label="top">
-        <a href="#top" style="background:rgba(255,255,255,0.12);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:700">Top</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- state quick nav -->
-  <div class="state-nav" id="state-nav" aria-label="States navigation">
-    <a href="#andhra-pradesh">Andhra Pradesh</a>
-    <a href="#assam">Assam</a>
-    <a href="#bihar">Bihar</a>
-    <a href="#karnataka">Karnataka</a>
-    <a href="#maharashtra">Maharashtra</a>
-    <a href="#west-bengal">West Bengal</a>
-    <a href="#tamil-nadu">Tamil Nadu</a>
-    <!-- Add other states as needed -->
+  <!-- Splash -->
+  <div id="splash">
+    <div class="loader" aria-hidden="true"></div>
+    <span style="position:absolute;left:-9999px;">Loading...</span>
   </div>
 
-  <main id="top">
-    <!-- Andhra Pradesh -->
-    <section class="state-section" id="andhra-pradesh">
-      <h2>Andhra Pradesh</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/andhra_kondapalli_toys.jpg" alt="Kondapalli Toy (Set of 3)">
-          <div style="font-weight:700;margin-top:8px">Kondapalli Toy (Set of 3)</div>
-          <div class="cat">Toys</div>
-          <div class="price">₹650</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/andhra_etikoppaka.jpg" alt="Etikoppaka Lacquerware Toy">
-          <div style="font-weight:700;margin-top:8px">Etikoppaka Lacquerware Toy</div>
-          <div class="cat">Toys</div>
-          <div class="price">₹450</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/andhra_bobbili_veena.jpg" alt="Bobbili Veena Miniature">
-          <div style="font-weight:700;margin-top:8px">Bobbili Veena Miniature</div>
-          <div class="cat">Music</div>
-          <div class="price">₹1200</div>
-        </div>
+  <!-- Auth -->
+  <section id="auth">
+    <h2>Bharat SkillBox Login / Register</h2>
+    <div class="auth-form">
+      <select id="user-type" aria-label="User type">
+        <option value="">Select User Type</option>
+        <option value="buyer">Buyer</option>
+        <option value="seller">Seller</option>
+      </select>
+      <br>
+      <input type="text" id="mobile" placeholder="Mobile Number" inputmode="numeric" />
+      <input type="password" id="password" placeholder="Password" />
+      <div id="seller-fields" style="display:none;">
+        <input type="text" id="shop-name" placeholder="Shop Name">
+        <input type="text" id="shop-address" placeholder="Shop Address">
+        <select id="shop-registered">
+          <option value="">Is Shop Registered?</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <input type="text" id="aadhaar" placeholder="Owner Aadhaar Number">
+        <input type="text" id="pan" placeholder="PAN Number">
+        <input type="text" id="seller-category" placeholder="Category (e.g., Toys, Art)">
       </div>
-    </section>
-
-    <!-- Assam -->
-    <section class="state-section" id="assam">
-      <h2>Assam</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/assam_sualkuchi_silk.jpg" alt="Sualkuchi Silk Scarf">
-          <div style="font-weight:700;margin-top:8px">Sualkuchi Silk Scarf</div>
-          <div class="cat">Clothing</div>
-          <div class="price">₹1800</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/assam_jaapi.jpg" alt="Jaapi (Traditional Hat)">
-          <div style="font-weight:700;margin-top:8px">Jaapi (Traditional Hat)</div>
-          <div class="cat">Accessories</div>
-          <div class="price">₹700</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/assam_tea_pack.jpg" alt="Assam Tea Gift Pack">
-          <div style="font-weight:700;margin-top:8px">Assam Tea Gift Pack</div>
-          <div class="cat">Food</div>
-          <div class="price">₹600</div>
-        </div>
+      <div id="buyer-fields" style="display:none;">
+        <input type="text" id="delivery-address" placeholder="Delivery Address">
       </div>
-    </section>
-
-    <!-- Bihar -->
-    <section class="state-section" id="bihar">
-      <h2>Bihar</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/bihar_terracotta_mask.jpg" alt="Tungi Terracotta Mask">
-          <div style="font-weight:700;margin-top:8px">Tungi Terracotta Mask</div>
-          <div class="cat">Art</div>
-          <div class="price">₹800</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/bihar_lac_box.jpg" alt="Lacquerware Box">
-          <div style="font-weight:700;margin-top:8px">Lacquerware Box</div>
-          <div class="cat">Home</div>
-          <div class="price">₹900</div>
-        </div>
+      <div style="margin-top:10px;">
+        <button id="btn-register">Register</button>
+        <button id="btn-login">Login</button>
       </div>
-    </section>
+      <p class="auth-msg" id="auth-msg"></p>
+    </div>
+  </section>
 
-    <!-- Karnataka -->
-    <section class="state-section" id="karnataka">
-      <h2>Karnataka</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/karnataka_ganjifa.jpg" alt="Ganjifa Playing Cards (Set)">
-          <div style="font-weight:700;margin-top:8px">Ganjifa Playing Cards (Set)</div>
-          <div class="cat">Toys</div>
-          <div class="price">₹900</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/karnataka_mysore_silk.jpg" alt="Mysore Silk Scarf">
-          <div style="font-weight:700;margin-top:8px">Mysore Silk Scarf</div>
-          <div class="cat">Clothing</div>
-          <div class="price">₹1800</div>
-        </div>
-    </section>
+  <!-- Main header (hidden before login) -->
+  <header id="main-header" style="display:none;">
+    <img src="assets/logo.png" alt="Bharat SkillBox Logo" class="header-logo" id="header-logo" onerror="this.style.display='none'">
+    <h1>Bharat SkillBox Ecosystem</h1>
+    <p class="tagline">Buy Local • Earn SkillSeeds • Empower India</p>
+    <nav>
+      <a href="#products" id="nav-products">Products</a>
+      <a href="#wallet" id="nav-wallet">Wallet</a>
+      <a href="#admin" id="nav-admin">Admin Panel</a>
+      <a href="https://uma9208.github.io/statewiseproduts/" >State Wise Products</a>
+      <button class="logout-btn" id="btn-logout">Logout</button>
+    </nav>
+  </header>
 
-    <!-- Maharashtra -->
-    <section class="state-section" id="maharashtra">
-      <h2>Maharashtra</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/maharashtra_warli.jpg" alt="Warli Painting (Framed)">
-          <div style="font-weight:700;margin-top:8px">Warli Painting (Framed)</div>
-          <div class="cat">Art</div>
-          <div class="price">₹1400</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/maharashtra_kolhapuri.jpg" alt="Kolhapuri Chappal (Pair)">
-          <div style="font-weight:700;margin-top:8px">Kolhapuri Chappal (Pair)</div>
-          <div class="cat">Footwear</div>
-          <div class="price">₹1300</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/maharashtra_paithani.jpg" alt="Pune Paithani Silk (Mini)">
-          <div style="font-weight:700;margin-top:8px">Pune Paithani Silk (Mini)</div>
-          <div class="cat">Clothing</div>
-          <div class="price">₹2000</div>
-        </div>
-      </div>
-    </section>
+  <!-- Hero -->
+  <section id="hero" style="display:none;">
+    <h2>Support Indian Artisans & Learn Skills!</h2>
+    <p>Earn SkillSeeds while buying authentic Indian products and contributing to local crafts.</p>
+  </section>
 
-    <!-- West Bengal -->
-    <section class="state-section" id="west-bengal">
-      <h2>West Bengal</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/westbengal_kantha.jpg" alt="Kantha Embroidery Quilt (Mini)">
-          <div style="font-weight:700;margin-top:8px">Kantha Embroidery Quilt (Mini)</div>
-          <div class="cat">Home</div>
-          <div class="price">₹1100</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/westbengal_bankura_terracotta.jpg" alt="Terracotta Craft (Bankura)">
-          <div style="font-weight:700;margin-top:8px">Terracotta Craft (Bankura)</div>
-          <div class="cat">Art</div>
-          <div class="price">₹750</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/westbengal_patachitra.jpg" alt="Bengal Patachitra Print">
-          <div style="font-weight:700;margin-top:8px">Bengal Patachitra Print</div>
-          <div class="cat">Art</div>
-          <div class="price">₹900</div>
-        </div>
-      </div>
-    </section>
+  <!-- Products -->
+  <section id="products" style="display:none;">
+    <h2>Featured Products</h2>
+    <div id="product-list" class="product-list"></div>
 
-    <!-- Tamil Nadu -->
-    <section class="state-section" id="tamil-nadu">
-      <h2>Tamil Nadu</h2>
-      <div class="product-list">
-        <div class="product-card">
-          <img src="assets/tamil_tanjore.jpg" alt="Tanjore Painting (Mini)">
-          <div style="font-weight:700;margin-top:8px">Tanjore Painting (Mini)</div>
-          <div class="cat">Art</div>
-          <div class="price">₹1500</div>
-        </div>
-        <div class="product-card">
-          <img src="assets/tamil_kanchipuram.jpg" alt="Kanchipuram Silk (Mini)">
-          <div style="font-weight:700;margin-top:8px">Kanchipuram Silk (Mini)</div>
-          <div class="cat">Clothing</div>
-          <div class="price">₹2000</div>
-        </div>
-      </div>
-    </section>
-  </main>
+    <div class="cart">
+      <h3>Your Cart</h3>
+      <ul id="cart-items"></ul>
+      <p>Total: ₹<span id="total">0</span></p>
+      <button id="btn-checkout">Checkout & Earn SkillSeeds</button>
+    </div>
+  </section>
 
-  <footer>
-    &copy; 2025 Bharat SkillBox Ecosystem
+  <!-- Wallet -->
+  <section id="wallet" style="display:none;">
+    <h2>Your SkillSeed Wallet</h2>
+    <p>Balance: <span id="wallet-balance">0</span> SkillSeeds</p>
+    <button id="btn-redeem">Redeem SkillSeeds for Discount</button>
+  </section>
+
+  <!-- Admin Panel -->
+  <section id="admin" style="display:none;">
+    <h2>Admin Panel</h2>
+    <p>Add your products below:</p>
+    <form id="product-form">
+      <input type="text" id="product-name" placeholder="Product Name" required>
+      <input type="number" id="product-price" placeholder="Price in ₹" required>
+      <input type="text" id="product-image" placeholder="Image URL or relative path (e.g., assets/prod.jpg)" required>
+      <input type="text" id="product-category" placeholder="Category" required>
+      <button type="submit">Add Product</button>
+    </form>
+    <div id="admin-product-list" class="product-list"></div>
+  </section>
+
+  <footer id="main-footer" style="display:none;">
+    <p>&copy; 2025 Bharat SkillBox Ecosystem</p>
   </footer>
+
+  <!-- Redeem modal -->
+  <div class="modal-backdrop" id="redeem-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="redeem-title">
+      <h3 id="redeem-title">Redeem 10 SkillSeeds</h3>
+      <p>Select where you'd like to redeem:</p>
+      <select id="redeem-select">
+        <option value="">-- Select Outlet --</option>
+        <option value="school-canteen">School Canteen</option>
+        <option value="stationery">Stationery</option>
+        <option value="book-store">Book Store</option>
+        <option value="library">Library</option>
+        <option value="government-store">Government Store</option>
+        <option value="jan-aushadhi">Jan Aushadhi Kendra</option>
+      </select>
+      <div class="modal-actions">
+        <button class="btn btn-muted" id="redeem-cancel">Cancel</button>
+        <button class="btn btn-primary" id="redeem-confirm">Confirm Redeem</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // splash hide
+    setTimeout(()=>{
+      const s = document.getElementById('splash');
+      s.classList.add('splash-hidden');
+      setTimeout(()=> s.style.display='none',600);
+    },1400);
+
+    // seeded product list (local assets — use forward slashes, no spaces in filenames)
+let productList = JSON.parse(localStorage.getItem('products') || '[]');
+if (!productList || productList.length === 0) {
+  productList = [
+  { name: 'Madhubani Painting', price: 1500, image:'assets/madhubani.png', category: 'Art' },
+  { name: 'Wooden Toy - Channapatna', price: 500, image: 'assets/channapatna.png', category: 'Toys' },
+  { name: 'Terracotta Jewelry Set', price: 1200, image: 'assets/terracotta_jewelry.png', category: 'Jewelry' },
+  { name: 'Khadi Cotton Saree', price: 2000, image: 'assets/khadi_saree.png', category: 'Clothing' },
+  { name: 'Brass Handicraft Lamp', price: 800, image: 'assets/brass_handicraft.png', category: 'Art' },
+];
+
+  localStorage.setItem('products', JSON.stringify(productList));
+}
+
+    // UI refs
+    const userType = document.getElementById('user-type');
+    const sellerFields = document.getElementById('seller-fields');
+    const buyerFields = document.getElementById('buyer-fields');
+    const authMsg = document.getElementById('auth-msg');
+
+    userType.addEventListener('change', ()=> {
+      sellerFields.style.display = userType.value==='seller' ? 'block' : 'none';
+      buyerFields.style.display = userType.value==='buyer' ? 'block' : 'none';
+    });
+
+    // Register/Login
+    document.getElementById('btn-register').addEventListener('click', ()=> {
+      const type = userType.value;
+      const mobile = document.getElementById('mobile').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (!type || !mobile || !password) { authMsg.style.color='#b00020'; authMsg.textContent='Enter all required fields!'; return; }
+
+      let users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (users[mobile]) { authMsg.style.color='#b00020'; authMsg.textContent='User already exists! Login instead.'; return; }
+      let user = { type, mobile, password };
+      if (type==='seller') {
+        user.shopName = document.getElementById('shop-name').value.trim();
+        user.shopAddress = document.getElementById('shop-address').value.trim();
+        user.registered = document.getElementById('shop-registered').value;
+        user.aadhaar = document.getElementById('aadhaar').value.trim();
+        user.pan = document.getElementById('pan').value.trim();
+        user.category = document.getElementById('seller-category').value.trim();
+      } else {
+        user.deliveryAddress = document.getElementById('delivery-address').value.trim();
+      }
+      users[mobile] = user;
+      localStorage.setItem('users', JSON.stringify(users));
+      authMsg.style.color='green'; authMsg.textContent='Registered! Please login.'; setTimeout(()=>authMsg.textContent='',2200);
+    });
+
+    document.getElementById('btn-login').addEventListener('click', ()=> {
+      const mobile = document.getElementById('mobile').value.trim();
+      const password = document.getElementById('password').value.trim();
+      let users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (users[mobile] && users[mobile].password === password) {
+        localStorage.setItem('currentUser', JSON.stringify(users[mobile]));
+        showMainApp(users[mobile]);
+        authMsg.textContent='';
+      } else { authMsg.style.color='#b00020'; authMsg.textContent='Invalid credentials!'; }
+    });
+
+    document.getElementById('btn-logout').addEventListener('click', ()=> { localStorage.removeItem('currentUser'); location.reload(); });
+
+    // App state
+    let cart = [];
+    let walletBalance = Number(localStorage.getItem('walletBalance') || 0);
+
+    function showMainApp(user) {
+      document.getElementById('auth').style.display='none';
+      document.getElementById('main-header').style.display='block';
+      document.getElementById('hero').style.display='block';
+      document.getElementById('main-footer').style.display='block';
+      if (user.type==='buyer') {
+        document.getElementById('products').style.display='block';
+        document.getElementById('wallet').style.display='block';
+        document.getElementById('admin').style.display='none';
+        renderProducts();
+        document.getElementById('wallet-balance').textContent = walletBalance;
+      } else {
+        document.getElementById('products').style.display='none';
+        document.getElementById('wallet').style.display='none';
+        document.getElementById('admin').style.display='block';
+        renderAdminProducts();
+      }
+    }
+
+    // render products with robust image fallback
+    function renderProducts() {
+      const productListDiv = document.getElementById('product-list');
+      productListDiv.innerHTML = '';
+      productList.forEach(p => {
+        const card = document.createElement('div'); card.className='product-card';
+        const img = document.createElement('img'); img.src = p.image; img.alt = p.name;
+        img.onerror = function(){ const ph = document.createElement('div'); ph.className='img-placeholder'; ph.textContent='Image not available'; this.replaceWith(ph); };
+        const title = document.createElement('h3'); title.textContent=p.name;
+        const price = document.createElement('p'); price.textContent=`₹${p.price}`;
+        const cat = document.createElement('p'); cat.textContent=`Category: ${p.category}`;
+        const btn = document.createElement('button'); btn.textContent='Add to Cart'; btn.addEventListener('click', ()=> addToCart(p.name,p.price));
+        card.appendChild(img); card.appendChild(title); card.appendChild(price); card.appendChild(cat); card.appendChild(btn);
+        productListDiv.appendChild(card);
+      });
+    }
+
+    function renderAdminProducts() {
+      const adminProductList = document.getElementById('admin-product-list');
+      adminProductList.innerHTML = '';
+      productList.forEach(p => {
+        const card = document.createElement('div'); card.className='product-card';
+        const img = document.createElement('img'); img.src=p.image; img.alt=p.name;
+        img.onerror = function(){ const ph=document.createElement('div'); ph.className='img-placeholder'; ph.textContent='Image not available'; this.replaceWith(ph); };
+        const title=document.createElement('h3'); title.textContent=p.name;
+        const price=document.createElement('p'); price.textContent=`₹${p.price}`;
+        const cat=document.createElement('p'); cat.textContent=`Category: ${p.category}`;
+        card.appendChild(img); card.appendChild(title); card.appendChild(price); card.appendChild(cat);
+        adminProductList.appendChild(card);
+      });
+    }
+
+    // admin add product
+    document.getElementById('product-form').addEventListener('submit',(e)=> {
+      e.preventDefault();
+      const name=document.getElementById('product-name').value.trim();
+      const price=Number(document.getElementById('product-price').value);
+      const image=document.getElementById('product-image').value.trim();
+      const category=document.getElementById('product-category').value.trim() || 'Other';
+      if (!name || !price || !image) return alert('Fill product name, price and image (URL or assets path).');
+      productList.push({name,price,image,category});
+      localStorage.setItem('products', JSON.stringify(productList));
+      renderAdminProducts();
+      e.target.reset();
+      alert('Product added.');
+    });
+
+    // cart & checkout
+    function addToCart(name, price) { cart.push({name,price}); updateCart(); }
+    function updateCart(){ const cartItems=document.getElementById('cart-items'); cartItems.innerHTML=''; let total=0; cart.forEach(i=>{ const li=document.createElement('li'); li.textContent=`${i.name} - ₹${i.price}`; cartItems.appendChild(li); total+=i.price; }); document.getElementById('total').textContent=total; }
+    document.getElementById('btn-checkout').addEventListener('click', ()=> {
+      if (cart.length===0) return alert('Your cart is empty!');
+      const earned = cart.length * 10;
+      walletBalance += earned;
+      localStorage.setItem('walletBalance', walletBalance);
+      document.getElementById('wallet-balance').textContent = walletBalance;
+      alert(`Checkout successful! You earned ${earned} SkillSeeds.`);
+      cart = []; updateCart();
+    });
+
+    // Redeem flow: open modal if enough balance
+    const redeemModal = document.getElementById('redeem-modal');
+    const redeemSelect = document.getElementById('redeem-select');
+    const redeemCancel = document.getElementById('redeem-cancel');
+    const redeemConfirm = document.getElementById('redeem-confirm');
+
+    document.getElementById('btn-redeem').addEventListener('click', ()=> {
+      if (walletBalance < 10) return alert('Not enough SkillSeeds to redeem (need 10).');
+      redeemSelect.value = ''; // reset
+      redeemModal.style.display = 'flex';
+    });
+
+    redeemCancel.addEventListener('click', ()=> redeemModal.style.display='none');
+
+    redeemConfirm.addEventListener('click', ()=> {
+      const chosen = redeemSelect.value;
+      if (!chosen) return alert('Please select an outlet to redeem at.');
+      // perform redeem
+      walletBalance -= 10;
+      if (walletBalance < 0) walletBalance = 0;
+      localStorage.setItem('walletBalance', walletBalance);
+      document.getElementById('wallet-balance').textContent = walletBalance;
+      redeemModal.style.display = 'none';
+      // friendly confirmation (you can show more UI here)
+      let label = redeemSelect.options[redeemSelect.selectedIndex].text;
+      alert(`Redeemed SkillSeeds at "${label}". Enjoy your discount!`);
+    });
+
+   // NOTE: disabled automatic login on page load so user must click "Login"
+// const maybeUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+// if (maybeUser) showMainApp(maybeUser);
+
+  });
+</script>
 </body>
 </html>
+
+
+
+
+
+
