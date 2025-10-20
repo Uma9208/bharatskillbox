@@ -96,7 +96,7 @@
 
   <!-- Main header (hidden before login) -->
   <header id="main-header" style="display:none;">
-    <img src="assets/logo.png" alt="Bharat SkillBox Logo" class="header-logo" id="header-logo" onerror="this.style.display='none'">
+    <img src="logo.png" alt="Bharat SkillBox Logo" class="header-logo" id="header-logo" onerror="this.style.display='none'">
     <h1>Bharat SkillBox Ecosystem</h1>
     <p class="tagline">Buy Local • Earn SkillSeeds • Empower India</p>
     <nav>
@@ -185,11 +185,11 @@
 let productList = JSON.parse(localStorage.getItem('products') || '[]');
 if (!productList || productList.length === 0) {
   productList = [
-    { name: 'Madhubani Painting', price: 1500, image:'assets/madhubani.png', category: 'Art' },
-    { name: 'Wooden Toy - Channapatna', price: 500, image:'assets/channapatna.png', category: 'Toys' },
-    { name: 'Terracotta Jewelry Set', price: 1200, image:'assets/terracotta_jewelry.png', category: 'Jewelry' },
-    { name: 'Khadi Cotton Saree', price: 2000, image:'assets/khadi_saree.png', category: 'Clothing' },
-    { name: 'Brass Handicraft Lamp', price: 800, image:'assets/brass_handicraft.png', category: 'Art' }
+    { name: 'Madhubani Painting', price: 1500, image:'madhubani.png', category: 'Art' },
+    { name: 'Wooden Toy - Channapatna', price: 500, image:'channapatna.png', category: 'Toys' },
+    { name: 'Terracotta Jewelry Set', price: 1200, image:'terracotta_jewelry.png', category: 'Jewelry' },
+    { name: 'Khadi Cotton Saree', price: 2000, image:'khadi_saree.png', category: 'Clothing' },
+    { name: 'Brass Handicraft Lamp', price: 800, image:'brass_handicraft.png', category: 'Art' }
   ];
   localStorage.setItem('products', JSON.stringify(productList));
 }
@@ -362,3 +362,4 @@ if (!productList || productList.length === 0) {
 </script>
 </body>
 </html>
+
