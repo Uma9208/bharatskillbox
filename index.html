@@ -185,17 +185,18 @@
 let productList = JSON.parse(localStorage.getItem('products') || '[]');
 if (!productList || productList.length === 0) {
   productList = [
-    { name: 'Madhubani Painting', price: 1500, image:'madhubani.png', category: 'Art' },
-    { name: 'Wooden Toy - Channapatna', price: 500, image:'channapatna.png', category: 'Toys' },
-    { name: 'Terracotta Jewelry Set', price: 1200, image:'terracotta_jewelry.png', category: 'Jewelry' },
-    { name: 'Khadi Cotton Saree', price: 2000, image:'khadi_saree.png', category: 'Clothing' },
-    { name: 'Brass Handicraft Lamp', price: 800, image:'brass_handicraft.png', category: 'Art' }
-    { name: 'Gujarat State - Chaniya Choli', price: 2200, image:'chaniyacholi.jpg', category: 'Clothing' }
-    { name: 'Kerala State - Aranmula Kannadi', price: 900, image:'keralaaranmula', category: 'Art' }
-    { name: 'Kashmir - pashmina shawl', price: 800, image:'pashmaavishawl.jpg', category: 'Clothing' }
-    { name: 'Rajasthan State - Bangles (Limited Stock)', price: 500, image:'rajasthanbangles.jpg', category: 'Art' }
-    { name: 'Bihar State - Lancquevere  ', price: 1800, image:'lacqueverebihar.jpg', category: 'Art' }
-  ];
+  { name: 'Madhubani Painting', price: 1500, image: 'madhubani.png', category: 'Art' },
+  { name: 'Wooden Toy - Channapatna', price: 500, image: 'channapatna.png', category: 'Toys' },
+  { name: 'Terracotta Jewelry Set', price: 1200, image: 'terracotta_jewelry.png', category: 'Jewelry' },
+  { name: 'Khadi Cotton Saree', price: 2000, image: 'khadi_saree.png', category: 'Clothing' },
+  { name: 'Brass Handicraft Lamp', price: 800, image: 'brass_handicraft.png', category: 'Art' },
+  { name: 'Gujarat State - Chaniya Choli', price: 2200, image: 'chaniyacholi.jpg', category: 'Clothing' },
+  { name: 'Kerala State - Aranmula Kannadi', price: 900, image: 'keralaaranmula.jpg', category: 'Art' },
+  { name: 'Kashmir - pashmina shawl', price: 800, image: 'pashmaavishawl.jpg', category: 'Clothing' },
+  { name: 'Rajasthan State - Bangles (Limited Stock)', price: 500, image: 'rajasthanbangles.jpg', category: 'Art' },
+  { name: 'Bihar State - Lancquevere', price: 1800, image: 'lacqueverebihar.jpg', category: 'Art' }
+];
+
   localStorage.setItem('products', JSON.stringify(productList));
 }
 
@@ -367,6 +368,7 @@ if (!productList || productList.length === 0) {
 </script>
 </body>
 </html>
+
 
 
 
